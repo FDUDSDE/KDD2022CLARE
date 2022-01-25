@@ -84,7 +84,7 @@ def writ2file(edges, comms, name):
 
 
 def create_hybrid_network(dataset1, dataset2, num_random_edges=5000):
-    """创建混合网络"""
+    """Create hybrid network"""
     with open(f"{dataset1}/{dataset1}-1.90.ungraph.txt", 'r') as file:
         edges1 = file.read().strip().split('\n')
     edges1 = [[int(i) for i in e.split()] for e in edges1]
