@@ -62,7 +62,6 @@ if __name__ == "__main__":
     parser.add_argument("--n_epoch", type=int, help="number of epoch", default=1000)
     parser.add_argument("--gamma", type=float, help="CommR gamma", default=0.99)
     parser.add_argument("--max_step", type=int, help="", default=10)
-    parser.add_argument("--max_rewrite_step", type=int, help="maximum rewrite steps", default=2)
 
     # Save log
     parser.add_argument("--writer_dir", type=str, help="Summary writer directory", default="")
