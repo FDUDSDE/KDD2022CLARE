@@ -54,7 +54,7 @@ if __name__ == "__main__":
     parser.add_argument("--commm_path", type=str, help="CommM path", default="")
     parser.add_argument("--commr_path", type=str, help="CommR path", default="")
 
-    parser.add_argument("--dataset", type=str, help="dataset", default="lj_dblp")
+    parser.add_argument("--dataset", type=str, help="dataset", default="amazon")
 
     # Train CommR
     parser.add_argument("--agent_lr", type=float, help="CommR learning rate", default=1e-3)

@@ -144,7 +144,7 @@ class CommRewriting:
                     print(f"[Eval-Epoch{epoch+1}] Improve f1 {new_f - f :.04f}, "
                           f"improve jaccard {new_j -j:.04f}, improve new_nmi {new_nmi-nmi:.04f}")
                     # self.save_net(self.args.writer_dir + f"/commr/epoch{epoch+1}.pt")
-                    if new_f - f >= best_f:
+                    if new_f - f >= best_f and epoch >= 400:
                         best_f = new_f - f
                         self.best_epoch = epoch
                         self.save_net(self.args.writer_dir + f"/commr_eval_best.pt")
@@ -200,7 +200,7 @@ class CommRewriting:
                             com_obj.pred_com.append(node)
                     else:
                         expand = False
-                if (not exclude and not expand) or (not self.args.dataset.startswith("amazon") and step >= self.args.max_rewrite_step):
+                if (not exclude and not expand):
                     break
                 next_state = com_obj.step(self.agent.gcn)
                 com_obj.feat_mat = next_state
