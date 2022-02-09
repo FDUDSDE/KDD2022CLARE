@@ -1,9 +1,9 @@
-# KDD2022CommMR
+# KDD2022CLARE
 
 
 This is our implementation for the paper:
 
-**CommMR: Semi-supervised Community Detection by Integrating Community Matching and Rewriting**
+**CLARE: A Semi-supervised Community Detection Algorithm**
 
 
 
@@ -14,8 +14,8 @@ This repository contains the following contents:
 
 ```
 .
-├── CommM                         --> (The folder containing CommM source code)
-├── CommR                         --> (The folder containing CommR source code)
+├── Locator                       --> (The folder containing Community Locator source code)
+├── Rewriter                      --> (The folder containing Community Rewriter source code)
 ├── ckpts                         --> (The folder saving checkpoint files)
 ├── dataset                       --> (The folder containing 7 used datasets)
 ├── run.py                        --> (The main code file. The code is run through this file)
@@ -89,10 +89,10 @@ Main arguments:
 
 ```
 --dataset [amazon, dblp, lj, amazon_dblp, dblp_amazon, dblp_lj, lj_dblp]: the dataset to run
---conv_type [GCN, GIN, SAGE]: GNN type in CommM
+--conv_type [GCN, GIN, SAGE]: GNN type in Community Locator
 --n_layers: ego-net dimensions & number of GNN layers
 --pred_size: total number of predicted communities
---agent_lr: the learning rate of CommR
+--agent_lr: the learning rate of Community Rewriter
 ```
 
   For more argument options, please refer to `run.py`

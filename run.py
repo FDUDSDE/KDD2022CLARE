@@ -1,6 +1,6 @@
 import json
-from CommM import CommMatching
-from CommR import CommRewriting
+from Locator import CommMatching
+from Rewriter import CommRewriting
 import argparse
 from datetime import datetime
 import random
