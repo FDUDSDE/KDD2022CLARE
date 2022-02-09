@@ -33,7 +33,7 @@ def read4file(filename):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
-    # CommM related
+    # Community Locator related
     parser.add_argument("--conv_type", type=str, help="type of convolution", default="GCN")
     parser.add_argument("--n_layers", type=int, help="number of gnn layers", default=2)
     parser.add_argument("--hidden_dim", type=int, help="training hidden size", default=64)
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     parser.add_argument("--fine_ratio", dest="fine_ratio", type=float, help="fine-grained sampling ratio", default=0.0)
     parser.add_argument("--comm_max_size", type=int, help="Community max size", default=12)
 
-    # Train CommM
+    # Train Community Locator
     parser.add_argument("--lr", dest="lr", type=float, help="learning rate", default=1e-4)
     parser.add_argument("--device", dest="device", type=str, help="training device", default="cpu")
     parser.add_argument("--batch_size", type=int, help="training batch size", default=32)
@@ -56,7 +56,7 @@ if __name__ == "__main__":
 
     parser.add_argument("--dataset", type=str, help="dataset", default="amazon")
 
-    # Train CommR
+    # Train Community Rewriter
     parser.add_argument("--agent_lr", type=float, help="CommR learning rate", default=1e-3)
     parser.add_argument("--n_episode", type=int, help="number of episode", default=10)
     parser.add_argument("--n_epoch", type=int, help="number of epoch", default=1000)
@@ -82,7 +82,7 @@ if __name__ == "__main__":
     graph, _ = feature_augmentation(nodes, edges)
     train_comms, val_comms, test_comms = split_communities(communities, 90, 10)
 
-    # Training CommMatching
+    # Training CommMatching of Locator
     CommM_obj = CommMatching(args, graph, train_comms, val_comms)
     CommM_obj.train_epoch(1)
     pred_comms, feat_mat = CommM_obj.make_prediction()
@@ -91,9 +91,9 @@ if __name__ == "__main__":
     write2file(pred_comms, args.writer_dir + "/CommM_" + metrics_string + '.txt')
 
     # Use F1-score as Reward function
-    # Train CommRewriting
+    # Train Community Rewriter
     cost_choice = "f1"
-    # Note that feed predicted communities `pred_comms` into CommRewriting
+    # Note that feed predicted communities `pred_comms` into Community Rewriter
     CommR_obj = CommRewriting(args, graph, feat_mat, train_comms, val_comms, pred_comms, cost_choice)
     CommR_obj.train()
     rewrite_comms = CommR_obj.get_rewrite()
