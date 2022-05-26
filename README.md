@@ -96,3 +96,20 @@ Main arguments:
 ```
 
   For more argument options, please refer to `run.py`
+  
+  
+  
+  
+  
+## Cite
+Please cite our paper if you make advantage of the CLARE in your own work:
+
+```
+@inproceedings{wu2022clare,
+  title={CLARE: A Semi-supervised Community Detection Algorithm},
+  author={Wu, Xixi and Xiong, Yun and Zhang, Yao and Jiao, Yizhu and Shan, Caihua and Sun, Yiheng and Zhu, Yangyong and Philip S. Yu},
+  booktitle={Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining},
+  year={2022},
+  organization={ACM}
+}
+```
