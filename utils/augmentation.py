@@ -30,3 +30,11 @@ def feature_augmentation(nodes, edges, normalize=True):
         new_graph.add_node(node, node_feature=torch.from_numpy(node_feat))
     new_graph.add_edges_from(edges)
     return new_graph, feat_matrix
+
+
+if __name__ == "__main__":
+    ns = [3, 4, 5, 0, 2, 1]
+    es = [[0, 1], [1, 2], [3, 4], [0, 2], [1, 3]]
+    g, feats = feature_augmentation(ns, es, normalize=False)
+    print(feats)
+    print(g.nodes.data())

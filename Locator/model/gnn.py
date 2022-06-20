@@ -67,6 +67,3 @@ class GNNEncoder(nn.Module):
         emb = pyg_nn.global_add_pool(emb, batch)
         emb = self.post_mp(emb)
         return emb
-
-    def loss(self, pred, label):
-        return F.nll_loss(pred, label)

@@ -121,7 +121,7 @@ class CommMatching:
                 self.model.zero_grad()
                 loss = self.model.criterion(pred, labels)
                 loss.backward()
-                torch.nn.utils.clip_grad_norm(self.model.parameters(), 1.0)
+                # torch.nn.utils.clip_grad_norm(self.model.parameters(), 1.0)
                 self.opt.step()
 
                 if (batch + 1) % 5 == 0:
@@ -138,7 +138,7 @@ class CommMatching:
 
         total_loss = 0
         for pos_a, pos_b, neg_a, neg_b in valid_set:
-            labels = torch.tensor([1] * (pos_a.num_graphs) + [0] * neg_a.num_graphs).to(device)
+            labels = torch.tensor([1] * pos_a.num_graphs + [0] * neg_a.num_graphs).to(device)
 
             with torch.no_grad():
                 emb_pos_a, emb_pos_b = self.model.encoder(pos_a), self.model.encoder(pos_b)
@@ -155,24 +155,25 @@ class CommMatching:
         print("[Eval-Test] Validation Loss{:.4f}".format(total_loss))
 
         # TODO: Save model
-        torch.save(self.model.state_dict(), self.args.writer_dir + "/commm.pt")
+        # torch.save(self.model.state_dict(), self.args.writer_dir + "/commm.pt")
 
     def load_embedding(self):
-        all_emb, query_emb = None, None
-
         query_emb = generate_embedding(self.train_comms + self.val_comms, self.model, device=self.args.device)
 
         n_node = len(list(self.graph.nodes()))
         batch_size = 10000
         batch_len = int((n_node / batch_size) + 1)
 
+        all_emb = np.zeros((n_node, self.args.output_dim))
         for batch_num in range(batch_len):
+            start, end = batch_num * batch_size, min((batch_num+1)*batch_size, n_node)
             graphs = [generate_ego_net(self.graph, g, k=self.args.n_layers, max_size=self.args.comm_max_size) for g in
-                      range(batch_num * batch_size, min((batch_num + 1) * batch_size, n_node))]
+                      range(start, end)]
             tmp_emb = generate_embedding(graphs, self.model, device=self.args.device)
-            all_emb = tmp_emb if batch_num == 0 else np.vstack((all_emb, tmp_emb))
+            # all_emb = tmp_emb if batch_num == 0 else np.vstack((all_emb, tmp_emb))
+            all_emb[start:end, :] = tmp_emb
             print(
-                "No.{}-{} candidate com embedding finish".format(batch_num * batch_size, (batch_num + 1) * batch_size))
+                "No.{}-{} candidate com embedding finish".format(start, end))
         np.save(self.args.writer_dir + "/emb", all_emb)
         np.save(self.args.writer_dir + "/query", query_emb)
         return all_emb, query_emb
