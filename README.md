@@ -1,7 +1,7 @@
 # KDD2022CLARE
 
 
-This is our implementation for the [paper](https://dl.acm.org/doi/10.1145/3534678.3539370):
+This is our implementation for the [paper](https://dl.acm.org/doi/10.1145/3534678.3539370) ([arXiv](https://arxiv.org/abs/2210.08274)):
 
 **CLARE: A Semi-supervised Community Detection Algorithm**
 
