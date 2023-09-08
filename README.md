@@ -1,9 +1,28 @@
 # KDD2022CLARE
 
 
-This is our implementation for the [paper](https://dl.acm.org/doi/10.1145/3534678.3539370) ([arXiv](https://arxiv.org/abs/2210.08274)):
+This is our implementation for KDD 2022 Research Track Full Paper: **CLARE: A Semi-supervised Community Detection Algorithm**
 
-**CLARE: A Semi-supervised Community Detection Algorithm**
+
+
+Check out all the related resources: [[Paper](https://dl.acm.org/doi/10.1145/3534678.3539370 )]  [[Video](https://www.bilibili.com/video/BV1As4y1C7mX/ )] [[Slides](https://wxxshirley.github.io/slides/KDD2022CLARE.pdf )] !
+
+
+In this paper, we study the semi-supervised community detection task and propose a novel framework: CLARE. It consists of two components, Community Locator and Community Rewriter.
+![Overview](imgs/overview.jpg)
+![Rewriting](imgs/rewriting.jpg)
+
+## Cite
+If you make advantage of CLARE in your research, please cite the following in your manuscript:
+```
+@inproceedings{wu2022clare,
+  title={CLARE: A Semi-supervised Community Detection Algorithm},
+  author={Wu, Xixi and Xiong, Yun and Zhang, Yao and Jiao, Yizhu and Shan, Caihua and Sun, Yiheng and Zhu, Yangyong and Philip S. Yu},
+  booktitle={Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining},
+  year={2022},
+  organization={ACM}
+}
+```
 
 
 
@@ -18,12 +37,13 @@ This repository contains the following contents:
 ├── Rewriter                      --> (The folder containing Community Rewriter source code)
 ├── ckpts                         --> (The folder saving checkpoint files)
 ├── dataset                       --> (The folder containing 7 used datasets)
-├── run.py                        --> (The main code file. The code is run through this file)
+├── main.py                       --> (The main code file. The code is run through this file)
 └── utils                         --> (The folder containing utils functions)
 
 ```
-Note that you have to create a `ckpts` folder to save contents.
+You have to create a `ckpts` folder to save contents.
 
+> **Note**: we refactor the codes and release the newest version (v2) in Sep 2023. Therefore, `old_version` contains the CLARE v1.
 
 
 ## Datasets
@@ -69,20 +89,14 @@ We provide 7 datasets as below. Each of them contains a community file `{name}-1
     pip install torch-scatter torch-sparse torch-cluster torch-spline-conv torch-geometric -f https://data.pyg.org/whl/torch-1.9.0+cpu.html
     ```
 
-3. Install **Deepsnap** with version 0.2.1
-
-   ```
-   pip install deepsnap
-   ```
-
 
 
 ### Run the code
 
-Execute the `run.py` file
+Execute the `main.py` file
 
 ```
-python run.py --dataset=amazon --conv_type=GCN 
+python main.py --dataset=amazon  
 ```
 
 Main arguments:
@@ -91,7 +105,6 @@ Main arguments:
 --dataset [amazon, dblp, lj, amazon_dblp, dblp_amazon, dblp_lj, lj_dblp]: the dataset to run
 --conv_type [GCN, GIN, SAGE]: GNN type in Community Locator
 --n_layers: ego-net dimensions & number of GNN layers
---pred_size: total number of predicted communities
 --agent_lr: the learning rate of Community Rewriter
 ```
 
@@ -101,15 +114,3 @@ Main arguments:
   
   
   
-## Cite
-Please cite our paper if you make advantage of the CLARE in your own work:
-
-```
-@inproceedings{wu2022clare,
-  title={CLARE: A Semi-supervised Community Detection Algorithm},
-  author={Wu, Xixi and Xiong, Yun and Zhang, Yao and Jiao, Yizhu and Shan, Caihua and Sun, Yiheng and Zhu, Yangyong and Philip S. Yu},
-  booktitle={Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining},
-  year={2022},
-  organization={ACM}
-}
-```
