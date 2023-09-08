@@ -1,6 +1,7 @@
 # KDD2022CLARE
 
-
+> **Note**
+> - <span style="color:blue"> We release a new implementation version on September 2023 with more elegant Locator implementation. Please check out our new version! </span>
 This is our implementation for KDD 2022 Research Track Full Paper: **CLARE: A Semi-supervised Community Detection Algorithm**
 
 
@@ -8,11 +9,6 @@ This is our implementation for KDD 2022 Research Track Full Paper: **CLARE: A Se
 Check out all the related resources: [[Paper](https://dl.acm.org/doi/10.1145/3534678.3539370 )]  [[Video](https://www.bilibili.com/video/BV1As4y1C7mX/ )] [[Slides](https://wxxshirley.github.io/slides/KDD2022CLARE.pdf )] !
 
 
-In this paper, we study the semi-supervised community detection task and propose a novel framework: CLARE. It consists of two components, Community Locator and Community Rewriter.
-![Overview](imgs/overview.jpg)
-![Rewriting](imgs/rewriting.jpg)
-
-## Cite
 If you make advantage of CLARE in your research, please cite the following in your manuscript:
 ```
 @inproceedings{wu2022clare,
@@ -24,10 +20,25 @@ If you make advantage of CLARE in your research, please cite the following in yo
 }
 ```
 
+## Paper Intro
+
+**Community Detection** algorithms fail to pinpoint a particular kind of community, *i.e.*, **targeted community**. For example, we may want to distinguish fraud groups from normal ones in transaction networks.
+
+Therefore, some researchers tend to **semi-supervised** settings: utilize certain communities as training data to recognize the other similar communities in the network.
+![TaskComp](imgs/task_comp.jpg)
+
+Existing methods can be generalized as **seed-based** (**first locate seed nodes, then develop communities around seeds**), which are quite sensitive to the quality of selected seeds. 
+Therefore, we propose a novel **subgraph-based** method CLARE (**first locate candidate communities, then refine their structures**).
+![MethodComp](imgs/method_comp.jpg)
+
+The overview of CLARE. It consists of two components, Community Locator and Community Rewriter.
+![Overview](imgs/overview.jpg)
 
 
 
-## What are in this Repository
+
+## Run CLARE
+
 
 This repository contains the following contents:
 
@@ -43,35 +54,11 @@ This repository contains the following contents:
 ```
 You have to create a `ckpts` folder to save contents.
 
-> **Note**: we refactor the codes and release the newest version (v2) in Sep 2023. Therefore, `old_version` contains the CLARE v1.
 
+For our experimental datasets, raw datasets are available at SNAP(http://snap.stanford.edu/data/index.html) and pre-processing details are explained in our paper.
+We select LiveJournal, DBLP and Amazon, in the **Networks with ground-truth communities** part.
+We provide 7 datasets. Each of them contains a community file `{name}-1.90.cmty.txt` and an edge file `{name}-1.90.ungraph.txt`.
 
-## Datasets
-
-Raw datasets are available at SNAP(http://snap.stanford.edu/data/index.html) and pre-processing details are explained in our paper.
-
-> We select LiveJournal, DBLP and Amazon, in the **Networks with ground-truth communities** part.
-
-
-
-We provide 7 datasets as below. Each of them contains a community file `{name}-1.90.cmty.txt` and an edge file `{name}-1.90.ungraph.txt`.
-
-```
-├── dataset
-│   ├── amazon
-│   ├── amazon_dblp
-│   ├── dblp
-│   ├── dblp_amazon
-│   ├── dblp_lj
-│   ├── lj
-│   ├── lj_dblp
-```
-
-
-
-
-
-## Run our code
 
 ### Environmental Requirement
 
@@ -83,12 +70,6 @@ We provide 7 datasets as below. Each of them contains a community file `{name}-1
 
     Note that it may need to appropriately install the package `torch-geometric` based on the CUDA version (or CPU version if GPU is not available). Please refer to the official website https://pytorch-geometric.readthedocs.io/en/latest/notes/installation.html for more information of installing prerequisites.
 
-    For example (Mac / CPU)
-
-    ```
-    pip install torch-scatter torch-sparse torch-cluster torch-spline-conv torch-geometric -f https://data.pyg.org/whl/torch-1.9.0+cpu.html
-    ```
-
 
 
 ### Run the code
@@ -99,16 +80,15 @@ Execute the `main.py` file
 python main.py --dataset=amazon  
 ```
 
-Main arguments:
+Main arguments (for more argument options, please refer to `main.py`):
 
 ```
 --dataset [amazon, dblp, lj, amazon_dblp, dblp_amazon, dblp_lj, lj_dblp]: the dataset to run
---conv_type [GCN, GIN, SAGE]: GNN type in Community Locator
---n_layers: ego-net dimensions & number of GNN layers
+--locator_epoch: number of epochs to train Community Locator (default setting 30)
+--n_layers: ego-net dimensions & number of GNN layers (default 2)
 --agent_lr: the learning rate of Community Rewriter
 ```
 
-  For more argument options, please refer to `run.py`
   
   
   
