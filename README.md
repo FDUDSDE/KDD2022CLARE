@@ -1,9 +1,10 @@
 # KDD2022CLARE
 
 > **Note**
-> - <span style="color:blue"> We release a new implementation version on September 2023 with more elegant Locator implementation. Please check out our new version! </span>
-This is our implementation for KDD 2022 Research Track Full Paper: **CLARE: A Semi-supervised Community Detection Algorithm**
+> <span style="color:blue"> We release **a new implementation** on September 2023 with more elegant Locator implementation. Please check out our new version! For CLARE v1, the codes are archived in `old_version` folder.</span>
 
+
+This is the official implementation for KDD 2022 Research Track Full Paper: **CLARE: A Semi-supervised Community Detection Algorithm**
 
 
 Check out all the related resources: [[Paper](https://dl.acm.org/doi/10.1145/3534678.3539370 )]  [[Video](https://www.bilibili.com/video/BV1As4y1C7mX/ )] [[Slides](https://wxxshirley.github.io/slides/KDD2022CLARE.pdf )] !
@@ -20,20 +21,31 @@ If you make advantage of CLARE in your research, please cite the following in yo
 }
 ```
 
-## Paper Intro
+## Table of Contents
+
+- [KDD2022CLARE](#KDD2022CLARE)
+  - [Table of Contents](#table-of-contents)
+  - [Paper Intro](#paper-intro)
+  - [Run CLARE](#run-clare) 
+    - [Environmental Requirement](#environmental-requirement)
+    - [Run the code](#run-the-code)
+
+
+
+ ## Paper Intro
 
 **Community Detection** algorithms fail to pinpoint a particular kind of community, *i.e.*, **targeted community**. For example, we may want to distinguish fraud groups from normal ones in transaction networks.
 
 Therefore, some researchers tend to **semi-supervised** settings: utilize certain communities as training data to recognize the other similar communities in the network.
-![TaskComp](imgs/task_comp.jpg)
+
+<img src="imgs/task_comp.jpg" width=70%></img>
 
 Existing methods can be generalized as **seed-based** (**first locate seed nodes, then develop communities around seeds**), which are quite sensitive to the quality of selected seeds. 
 Therefore, we propose a novel **subgraph-based** method CLARE (**first locate candidate communities, then refine their structures**).
-![MethodComp](imgs/method_comp.jpg)
+<img src="imgs/method_comp.jpg" width=70%></img>
 
 The overview of CLARE. It consists of two components, Community Locator and Community Rewriter.
 ![Overview](imgs/overview.jpg)
-
 
 
 
@@ -70,6 +82,9 @@ We provide 7 datasets. Each of them contains a community file `{name}-1.90.cmty.
 
     Note that it may need to appropriately install the package `torch-geometric` based on the CUDA version (or CPU version if GPU is not available). Please refer to the official website https://pytorch-geometric.readthedocs.io/en/latest/notes/installation.html for more information of installing prerequisites.
 
+> Runing version for your information
+> torch                         1.13.0
+> torch-geometric               2.3.1
 
 
 ### Run the code
@@ -84,13 +99,12 @@ Main arguments (for more argument options, please refer to `main.py`):
 
 ```
 --dataset [amazon, dblp, lj, amazon_dblp, dblp_amazon, dblp_lj, lj_dblp]: the dataset to run
+--num_pred / num_train / num_val: the numbers for prediction, training, and validation
 --locator_epoch: number of epochs to train Community Locator (default setting 30)
 --n_layers: ego-net dimensions & number of GNN layers (default 2)
 --agent_lr: the learning rate of Community Rewriter
 ```
 
   
-  
-  
-  
+
   
