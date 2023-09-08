@@ -5,7 +5,7 @@ import os
 from .data_obj import DataProcessor, Community
 from .policy_agent import RewritingAgent
 from .symbol import EXPAND, EXCLUDE, VIRTUAL_EXCLUDE_NODE
-from utils import generate_outer_boundary, eval_scores
+from old_version.utils import generate_outer_boundary, eval_scores
 
 
 class CommRewriting:

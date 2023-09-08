@@ -3,7 +3,7 @@ from tqdm import tqdm
 
 from .model import CommunityOrderEmbedding
 import random
-from utils import sample_neigh, batch2graphs, generate_embedding, generate_ego_net
+from old_version.utils import sample_neigh, batch2graphs, generate_embedding, generate_ego_net
 import torch
 import torch.optim as optim
 from tensorboardX import SummaryWriter

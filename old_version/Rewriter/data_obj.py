@@ -3,7 +3,7 @@ import networkx as nx
 import numpy as np
 import torch
 from .symbol import VIRTUAL_EXCLUDE_NODE, VIRTUAL_EXPAND_NODE
-from utils import generate_ego_net, generate_outer_boundary
+from old_version.utils import generate_ego_net, generate_outer_boundary
 
 
 class Community:
