@@ -1,0 +1,110 @@
+= = = = = = = = = = = = = = = = = = = =
+##  Starting Time: 2023-09-08 15:16:31
+Namespace(agent_lr=0.001, comm_max_size=12, commr_path='', dataset='amazon', device='cuda:0', gamma=0.99, generate_k=2, gnn_type='GCN', hidden_dim=64, locator_batch_size=256, locator_epoch=30, locator_lr=0.001, margin=0.6, max_step=4, n_episode=10, n_epoch=1000, n_layers=2, num_pred=1000, num_train=90, num_val=10, output_dim=64, seed=0, writer_dir='ckpts/amazon_small/20230908-151631')
+[AMAZON] #Nodes 6926, #Edges 17893, #Communities 1000
+Finish loading data: Data(x=[6926, 5], edge_index=[2, 35786])
+
+Split dataset: #Train 90, #Val 10, #Test 900
+
+Community Locator init ...
+GNNEncoder(
+  (act): LeakyReLU(negative_slope=0.01)
+  (conv_layers): ModuleList(
+    (0): GCNConv(5, 64)
+    (1): GCNConv(64, 64)
+  )
+)
+Community Locator finish initialization!
+
+Training Order Embedding ...
+***epoch: 0001 | ORDER EMBEDDING train_loss: 24.05397 | cost time 1.11s
+***epoch: 0002 | ORDER EMBEDDING train_loss: 19.60401 | cost time 0.548s
+***epoch: 0003 | ORDER EMBEDDING train_loss: 24.63920 | cost time 0.542s
+***epoch: 0004 | ORDER EMBEDDING train_loss: 21.69497 | cost time 0.533s
+***epoch: 0005 | ORDER EMBEDDING train_loss: 19.70461 | cost time 0.538s
+***epoch: 0006 | ORDER EMBEDDING train_loss: 19.92637 | cost time 0.541s
+***epoch: 0007 | ORDER EMBEDDING train_loss: 19.90128 | cost time 0.54s
+***epoch: 0008 | ORDER EMBEDDING train_loss: 21.73342 | cost time 0.533s
+***epoch: 0009 | ORDER EMBEDDING train_loss: 19.24363 | cost time 0.524s
+***epoch: 0010 | ORDER EMBEDDING train_loss: 19.48411 | cost time 0.528s
+***epoch: 0011 | ORDER EMBEDDING train_loss: 16.66693 | cost time 0.531s
+***epoch: 0012 | ORDER EMBEDDING train_loss: 15.54339 | cost time 0.536s
+***epoch: 0013 | ORDER EMBEDDING train_loss: 14.64023 | cost time 0.539s
+***epoch: 0014 | ORDER EMBEDDING train_loss: 13.24080 | cost time 0.535s
+***epoch: 0015 | ORDER EMBEDDING train_loss: 14.42435 | cost time 0.528s
+***epoch: 0016 | ORDER EMBEDDING train_loss: 12.71625 | cost time 0.533s
+***epoch: 0017 | ORDER EMBEDDING train_loss: 12.54410 | cost time 0.517s
+***epoch: 0018 | ORDER EMBEDDING train_loss: 12.19493 | cost time 0.614s
+***epoch: 0019 | ORDER EMBEDDING train_loss: 14.17663 | cost time 0.541s
+***epoch: 0020 | ORDER EMBEDDING train_loss: 13.35435 | cost time 0.522s
+***epoch: 0021 | ORDER EMBEDDING train_loss: 11.04102 | cost time 0.532s
+***epoch: 0022 | ORDER EMBEDDING train_loss: 11.07506 | cost time 0.533s
+***epoch: 0023 | ORDER EMBEDDING train_loss: 8.69673 | cost time 0.534s
+***epoch: 0024 | ORDER EMBEDDING train_loss: 11.44858 | cost time 0.536s
+***epoch: 0025 | ORDER EMBEDDING train_loss: 10.18202 | cost time 0.521s
+***epoch: 0026 | ORDER EMBEDDING train_loss: 8.93177 | cost time 0.534s
+***epoch: 0027 | ORDER EMBEDDING train_loss: 8.44555 | cost time 0.522s
+***epoch: 0028 | ORDER EMBEDDING train_loss: 9.26828 | cost time 0.538s
+***epoch: 0029 | ORDER EMBEDDING train_loss: 8.02141 | cost time 0.553s
+***epoch: 0030 | ORDER EMBEDDING train_loss: 9.37016 | cost time 0.447s
+Order Embedding Finish Training!
+
+***Generate nodes embedding from idx 0 to 4096
+***Generate nodes embedding from idx 4096 to 6926
+
+Start Matching ...
+[Generate] Pred size 1000, Avg Length 8.2520
+
+P, R, F, J AvgAxis0:  [0.82229885 0.72814998 0.74318908 0.63587454]
+P, R, F, J AvgAxis1:  [0.75142701 0.72196902 0.72065251 0.64863271]
+AvgF1: 0.7319 AvgJaccard: 0.6423 NMI: 0.6608 Detect percent: 0.6332
+[Eval-Epoch100] Improve f1 0.0255, improve jaccard 0.0376, improve new_nmi 0.0338
+[Eval-Epoch140] Improve f1 0.0237, improve jaccard 0.0316, improve new_nmi 0.0311
+[Eval-Epoch160] Improve f1 0.0118, improve jaccard 0.0167, improve new_nmi 0.0087
+[Eval-Epoch180] Improve f1 0.0112, improve jaccard 0.0134, improve new_nmi 0.0100
+[Eval-Epoch200] Improve f1 0.0083, improve jaccard 0.0116, improve new_nmi 0.0052
+[Eval-Epoch220] Improve f1 0.0109, improve jaccard 0.0154, improve new_nmi 0.0128
+[Eval-Epoch240] Improve f1 0.0096, improve jaccard 0.0113, improve new_nmi 0.0008
+[Eval-Epoch280] Improve f1 0.0265, improve jaccard 0.0378, improve new_nmi 0.0375
+[Eval-Epoch300] Improve f1 0.0024, improve jaccard 0.0032, improve new_nmi -0.0009
+[Eval-Epoch320] Improve f1 0.0013, improve jaccard 0.0006, improve new_nmi -0.0075
+[Eval-Epoch340] Improve f1 0.0196, improve jaccard 0.0259, improve new_nmi 0.0168
+[Eval-Epoch360] Improve f1 0.0033, improve jaccard 0.0045, improve new_nmi 0.0022
+[Eval-Epoch400] Improve f1 0.0171, improve jaccard 0.0224, improve new_nmi 0.0141
+[Eval-Epoch420] Improve f1 0.0152, improve jaccard 0.0240, improve new_nmi 0.0271
+[Eval-Epoch440] Improve f1 0.0277, improve jaccard 0.0416, improve new_nmi 0.0414
+[Eval-Epoch460] Improve f1 0.0188, improve jaccard 0.0249, improve new_nmi 0.0259
+[Eval-Epoch480] Improve f1 0.0283, improve jaccard 0.0406, improve new_nmi 0.0376
+[Eval-Epoch500] Improve f1 0.0193, improve jaccard 0.0295, improve new_nmi 0.0289
+[Eval-Epoch520] Improve f1 0.0059, improve jaccard 0.0062, improve new_nmi 0.0034
+[Eval-Epoch540] Improve f1 0.0020, improve jaccard 0.0118, improve new_nmi 0.0089
+[Eval-Epoch560] Improve f1 0.0181, improve jaccard 0.0367, improve new_nmi 0.0384
+[Eval-Epoch580] Improve f1 0.0049, improve jaccard 0.0141, improve new_nmi 0.0105
+[Eval-Epoch600] Improve f1 0.0281, improve jaccard 0.0429, improve new_nmi 0.0418
+[Eval-Epoch620] Improve f1 0.0314, improve jaccard 0.0468, improve new_nmi 0.0386
+[Eval-Epoch640] Improve f1 0.0428, improve jaccard 0.0696, improve new_nmi 0.0736
+[Eval-Epoch660] Improve f1 0.0435, improve jaccard 0.0724, improve new_nmi 0.0708
+[Eval-Epoch680] Improve f1 0.0465, improve jaccard 0.0753, improve new_nmi 0.0807
+[Eval-Epoch700] Improve f1 0.0523, improve jaccard 0.0876, improve new_nmi 0.0971
+[Eval-Epoch720] Improve f1 0.0592, improve jaccard 0.0976, improve new_nmi 0.1017
+[Eval-Epoch740] Improve f1 0.0582, improve jaccard 0.0961, improve new_nmi 0.0980
+[Eval-Epoch760] Improve f1 0.0468, improve jaccard 0.0822, improve new_nmi 0.0941
+[Eval-Epoch780] Improve f1 0.0566, improve jaccard 0.0965, improve new_nmi 0.1085
+[Eval-Epoch800] Improve f1 0.0522, improve jaccard 0.0888, improve new_nmi 0.0992
+[Eval-Epoch820] Improve f1 0.0664, improve jaccard 0.1103, improve new_nmi 0.1197
+[Eval-Epoch840] Improve f1 0.0599, improve jaccard 0.0996, improve new_nmi 0.1142
+[Eval-Epoch860] Improve f1 0.0427, improve jaccard 0.0743, improve new_nmi 0.0857
+[Eval-Epoch880] Improve f1 0.0606, improve jaccard 0.1007, improve new_nmi 0.1071
+[Eval-Epoch900] Improve f1 0.0641, improve jaccard 0.1067, improve new_nmi 0.1164
+[Eval-Epoch920] Improve f1 0.0686, improve jaccard 0.1128, improve new_nmi 0.1223
+[Eval-Epoch940] Improve f1 0.0582, improve jaccard 0.0961, improve new_nmi 0.0980
+[Eval-Epoch960] Improve f1 0.0619, improve jaccard 0.1030, improve new_nmi 0.1129
+[Eval-Epoch980] Improve f1 0.0425, improve jaccard 0.0720, improve new_nmi 0.0775
+[Eval-Epoch1000] Improve f1 0.0613, improve jaccard 0.1028, improve new_nmi 0.1124
+Load net from ckpts/amazon_small/20230908-151631/commr_eval_best.pt at Epoch919
+[Rewrite] Pred size 1000, Avg Length 9.0610
+P, R, F, J AvgAxis0:  [0.88020826 0.78469454 0.81072351 0.73091315]
+P, R, F, J AvgAxis1:  [0.77871547 0.7972597  0.77916445 0.74012245]
+AvgF1: 0.7949 AvgJaccard: 0.7355 NMI: 0.7507 Detect percent: 0.6672
+## Finishing Time: 2023-09-08 15:18:58
+= = = = = = = = = = = = = = = = = = = =
