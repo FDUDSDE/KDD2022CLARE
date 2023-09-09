@@ -63,7 +63,8 @@ if __name__ == "__main__":
     parser.add_argument("--n_episode", type=int, help="number of episode", default=10)
     parser.add_argument("--n_epoch", type=int, help="number of epoch", default=1000)
     parser.add_argument("--gamma", type=float, help="CommR gamma", default=0.99)
-    parser.add_argument("--max_step", type=int, help="", default=4)
+    parser.add_argument("--max_step", type=int, help="", default=10)
+    parser.add_argument("--max_rewrite_step", type=int, help="", default=4)
     parser.add_argument("--commr_path", type=str, help="CommR path", default="")
 
     # Save log
@@ -103,7 +104,7 @@ if __name__ == "__main__":
     ##########################################################
     ################### Step 3 Train Rewriter#################
     ##########################################################
-    cost_choice = "f1"
+    cost_choice = "f1"  # or you can change to "jaccard"
     feat_mat = CommM_obj.generate_all_node_emb().detach().cpu().numpy()  # all nodes' embedding
     CommR_obj = CommRewriting(args, nx_graph, feat_mat, train_comms, val_comms, pred_comms, cost_choice)
     CommR_obj.train()

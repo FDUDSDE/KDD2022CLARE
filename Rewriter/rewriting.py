@@ -37,30 +37,25 @@ class CommRewriting:
         torch.save(data, f_name)
 
     def train(self):
-        self.agent.exclude_net.train()
-        self.agent.expand_net.train()
-
         gamma = self.args.gamma
-
-        n_episode = self.args.n_episode
-        n_epoch = self.args.n_epoch
         n_sample = 0
 
-        prg_bar = range(n_epoch)
-        # Validation set for getting best model
-        val_data = self.data_processor.generate_data(batch_size=n_episode, valid=True)
+        # Validation set for model selection
+        val_data = self.data_processor.generate_data(batch_size=self.args.n_episode, valid=True)
 
         steps, expand_steps, exclude_steps = [], [], []
         total_exclude_rewards, total_expand_rewards = [], []
 
         best_f, best_j, best_nmi = 0, 0, 0
-
-        for epoch in prg_bar:
+        for epoch in range(self.args.n_epoch):
             n_sample += 1
             exclude_log_probs, exclude_rewards = [], []
             expand_log_probs, expand_rewards = [], []
 
-            batch_data = self.data_processor.generate_data(batch_size=n_episode)
+            batch_data = self.data_processor.generate_data(batch_size=self.args.n_episode)
+
+            self.agent.exclude_net.train()
+            self.agent.expand_net.train()
 
             for i in range(len(batch_data)):
                 obj = batch_data[i]
@@ -144,7 +139,7 @@ class CommRewriting:
                     print(f"[Eval-Epoch{epoch+1}] Improve f1 {new_f - f :.04f}, "
                           f"improve jaccard {new_j -j:.04f}, improve new_nmi {new_nmi-nmi:.04f}")
                     # self.save_net(self.args.writer_dir + f"/commr/epoch{epoch+1}.pt")
-                    if new_f - f >= best_f and epoch >= 400:
+                    if new_f - f >= best_f and epoch >= 600:
                         best_f = new_f - f
                         self.best_epoch = epoch
                         self.save_net(self.args.writer_dir + f"/commr_eval_best.pt")
@@ -200,7 +195,7 @@ class CommRewriting:
                             com_obj.pred_com.append(node)
                     else:
                         expand = False
-                if (not exclude and not expand) or step >= self.args.max_step:
+                if (not exclude and not expand) or step >= self.args.max_rewrite_step:
                     break
                 next_state = com_obj.step(self.agent.gcn)
                 com_obj.feat_mat = next_state
