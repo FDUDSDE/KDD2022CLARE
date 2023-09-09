@@ -37,6 +37,7 @@ if __name__ == "__main__":
     parser.add_argument("--seed", type=int, help="seed", default=0)
     parser.add_argument("--device", dest="device", type=str, help="training device", default="cuda:0")
     parser.add_argument("--dataset", type=str, help="dataset", default="amazon")
+    #   --in CLARE paper, we predict 1000 communities from 100 communities as a default setting
     parser.add_argument("--num_pred", type=int, help="pred size", default=1000)
     parser.add_argument("--num_train", type=int, help="pred size", default=90)
     parser.add_argument("--num_val", type=int, help="pred size", default=10)
@@ -51,7 +52,6 @@ if __name__ == "__main__":
     parser.add_argument("--margin", type=float, help="margin loss", default=0.6)
     #   --Generation
     parser.add_argument("--comm_max_size", type=int, help="Community max size", default=12)
-    parser.add_argument("--generate_k", type=int, help="Community hop", default=2)
     #   --Training
     parser.add_argument("--locator_lr", type=float, help="learning rate", default=1e-3)
     parser.add_argument("--locator_epoch", type=int, default=30)

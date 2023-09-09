@@ -12,6 +12,12 @@ import math
 
 class CommMatching:
     def __init__(self, args, graph_data, train_communities, val_communities, device=torch.device("cuda:0")):
+        """Community Locator Object
+
+        :param graph_data: network in `PyG.Data` format
+        :param train_communities: training communities
+        :param val_communities: validation communities
+        """
         print(f"Community Locator init ... ")
         self.args = args
 
@@ -24,6 +30,7 @@ class CommMatching:
         self.num_node, input_dim = graph_data.x.size(0), graph_data.x.size(1)
         self.device = device
 
+        # GNN Encoder core setting: GNN-type, hidden dimension, and number of layers
         self.gnn_encoder = GNNEncoder(input_dim, args.hidden_dim, args.output_dim, args.n_layers,
                                       gnn_type=args.gnn_type)
         self.gnn_encoder.to(device)
@@ -40,7 +47,9 @@ class CommMatching:
 
             st = time.time()
 
+            # randomly sample nodes from observed nodes
             node_list = random.sample(list(self.seed_nodes), self.args.locator_batch_size)
+            # from sampled seeds, extract their ego-net (`batch_data`) and ego-net's subgraph (`corrupt_batch`)
             batch_data, corrupt_batch = prepare_locator_train_data(node_list, self.graph_data, max_size=subg_max_size,
                                                                    num_hop=num_hop)
 
@@ -58,6 +67,8 @@ class CommMatching:
             emb_as = torch.cat((corrupt_summary, random_summary), dim=0)
             emb_bs = torch.cat((summary, summary), dim=0)
 
+            # Community Order Embedding training loss
+            # for more details, please refer to our original paper
             labels = torch.tensor([1] * summary.size(0) + [0] * summary.size(0)).to(self.device)
             e = torch.sum(torch.max(torch.zeros_like(emb_as, device=self.device), emb_as - emb_bs) ** 2, dim=1)
 
@@ -97,11 +108,12 @@ class CommMatching:
         self.gnn_encoder.eval()
 
         # Step 1 generate embeddings
+        #      1.1 generate training communities' embedding
         query_emb = self.generate_target_community_emb(self.train_comms + self.val_comms)
         query_emb = query_emb.detach().cpu().numpy()
 
-        ### extract each node's k-ego-net as candidates for further matching
-        batch_size = 4096
+        #      1.2 generate all candidate communities' (k-ego net of each node) embedding
+        batch_size = 4096  # you can set a larger one for faster computation
         batch_len = math.ceil(self.num_node / batch_size)
         all_emb = np.zeros((self.num_node, self.args.output_dim))
         for i in range(batch_len):

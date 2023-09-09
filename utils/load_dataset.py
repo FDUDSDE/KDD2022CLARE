@@ -52,10 +52,11 @@ def feature_augmentation(nodes, edges, num_node, normalize=True):
     return feat_matrix, g
 
 
-def prepare_data(dataset="amazon_small"):
-    r"""Core Functions: load community-dataset, return numbers, `PyG` data, and `List` communities"""
+def prepare_data(dataset="amazon"):
+    r"""Core Function: load community dataset, return numbers, `PyG` data, and `List` communities"""
     num_node, num_edge, num_community, nodes, edges, communities, features = load_data(dataset)
     if features is None:
+        # `nx_graph`: networkx format graph data
         features, nx_graph = feature_augmentation(nodes, edges, num_node)
 
     # this is important to convert into undirected graph

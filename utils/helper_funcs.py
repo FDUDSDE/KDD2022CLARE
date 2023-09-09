@@ -5,6 +5,7 @@ from torch_geometric.utils import k_hop_subgraph, subgraph
 
 
 def split_communities(communities, n_train, n_val=0):
+    r"""Randomly split all communities into train set, validation set, and test set"""
     idxes = list(range(len(communities)))
     np.random.shuffle(idxes)
 
@@ -32,10 +33,12 @@ def drop_nodes(graph_data, aug_ratio=0.15):
 
     edge_index = graph_data.edge_index.detach().cpu().numpy()
 
+    # re-label edges
     edge_index = [[idx_dict[edge_index[0, n]], idx_dict[edge_index[1, n]]] for n in range(edge_num) if
                   (not edge_index[0, n] in idx_drop) and (not edge_index[1, n] in idx_drop)]
 
     try:
+        # create a corrupted subgraph
         new_edge_index = torch.tensor(edge_index).transpose_(0, 1).to(device)
         new_x = graph_data.x[idx_non_drop]
         new_graph_data = Data(x=new_x, edge_index=new_edge_index)
@@ -45,6 +48,8 @@ def drop_nodes(graph_data, aug_ratio=0.15):
 
 
 def prepare_locator_train_data(node_list, data: Data, max_size=25, num_hop=2):
+    r"""Generate batch data for Community Locator training. For each node,
+    extract its ego-net and generate a sub-ego-net"""
     batch, subg_batch = [], []
 
     num_nodes = data.x.size(0)
@@ -64,7 +69,7 @@ def prepare_locator_train_data(node_list, data: Data, max_size=25, num_hop=2):
             node_list[seed_idx], node_list[0] = node_list[0], node_list[seed_idx]
 
         # Hint: important!!!
-        #  We must ensure all the first node is the target node
+        #  We must ensure all the first node is the centric node
         assert node_list[0] == node
         # print(node, node_list)
 
@@ -73,6 +78,7 @@ def prepare_locator_train_data(node_list, data: Data, max_size=25, num_hop=2):
         g_data = Data(x=node_x, edge_index=edge_index)
         batch.append(g_data)
 
+        # apply **Drop-Node** to obtain its subgraph
         corrupt_data = drop_nodes(g_data)
         subg_batch.append(corrupt_data)
         # print(g_data, corrupt_data)
